@@ -1,6 +1,6 @@
 ﻿namespace MachinistSAssistant.Models.ProgramParameters
 {
-    public class SLHMillProgramParameters
+    public class SLHMill
     {
     }
 }

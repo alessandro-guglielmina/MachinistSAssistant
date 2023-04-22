@@ -1,10 +1,11 @@
 ﻿namespace MachinistSAssistant.Models.ApplicationParameters
 {
-    public class SLHMillApplicationParameters
+    public class SLHMill
     {
+        public string ToolType { get; } = "SLHMill";
         public string ToolNumber { get; set; } = default!;
-
-        public string WorkpieceMaterial { get; set; } = default!;
+        public string? WorkpieceMaterial { get; set; }
+        public string? CuttingGeometry { get; set; }
         public string SLHType { get; set; } = default!;
         public string MmOrInches { get; set; } = default!;
         public double WorkpieceReferenceDiameter { get; set; } = default!;
