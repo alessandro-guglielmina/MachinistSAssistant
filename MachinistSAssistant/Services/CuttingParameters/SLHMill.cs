@@ -1,6 +1,6 @@
 ﻿using Dapper;
 
-namespace MachinistSAssistant.Services.CuttingParametersServices
+namespace MachinistSAssistant.Services.CuttingParameters
 {
     public class SLHMill : ISLHMill
     {

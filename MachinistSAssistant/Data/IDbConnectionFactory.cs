@@ -1,9 +1,7 @@
 ﻿using System.Data;
 
-namespace MachinistSAssistant.Data
+namespace MachinistSAssistant.Data;
+public interface IDbConnectionFactory
 {
-    public interface IDbConnectionFactory
-    {
-        Task<IDbConnection> CreateConnectionAsync();
-    }
+    Task<IDbConnection> CreateConnectionAsync();
 }

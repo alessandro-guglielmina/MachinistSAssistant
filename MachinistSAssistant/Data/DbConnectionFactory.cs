@@ -1,9 +1,8 @@
 ﻿using Microsoft.Data.Sqlite;
 using System.Data;
 
-namespace MachinistSAssistant.Data
-{
-    public class DbConnectionFactory : IDbConnectionFactory
+namespace MachinistSAssistant.Data;
+public class DbConnectionFactory : IDbConnectionFactory
     {
         private readonly string _dbEngine;
         private readonly string _connectionString;
@@ -27,4 +26,3 @@ namespace MachinistSAssistant.Data
             }
         }
     }
-}

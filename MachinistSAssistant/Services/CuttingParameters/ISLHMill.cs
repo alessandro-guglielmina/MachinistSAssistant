@@ -1,4 +1,4 @@
-﻿namespace MachinistSAssistant.Services.CuttingParametersServices
+﻿namespace MachinistSAssistant.Services.CuttingParameters
 {
     public interface ISLHMill
     {

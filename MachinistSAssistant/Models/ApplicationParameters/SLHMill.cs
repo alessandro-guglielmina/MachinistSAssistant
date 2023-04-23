@@ -1,6 +1,5 @@
-﻿namespace MachinistSAssistant.Models.ApplicationParameters
-{
-    public class SLHMill
+﻿namespace MachinistSAssistant.Models.ApplicationParameters;
+public class SLHMill
     {
         public string ToolType { get; } = "SLHMill";
         public string ToolNumber { get; set; } = default!;
@@ -13,4 +12,3 @@
         public double ToolReferenceDiameter { get; set; } = default!;
         public double ToolReferenceOffset { get; set; } = default!;
     }
-}
