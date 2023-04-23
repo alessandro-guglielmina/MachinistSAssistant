@@ -1,4 +1,6 @@
-﻿namespace MachinistSAssistant.Enpoints;
+﻿using Org.BouncyCastle.Crypto.IO;
+
+namespace MachinistSAssistant.Enpoints;
 public class SLHMill : Internal.IEndpoints
 {
     private const string ContentType = "application/json";
@@ -10,21 +12,21 @@ public class SLHMill : Internal.IEndpoints
     }
     public static void DefineEndpoints(IEndpointRouteBuilder app)
     {
-        app.MapGet(BaseRoute, GetCuttingParameters)
-            .WithName("GetCuttingParameters")
-            .Produces<IEnumerable<Book>>(200)
+        app.MapGet(BaseRoute, GetDocumentation)
+            .WithName("GetDocumentation")
+            .Accepts<Models.ApplicationParameters.SLHMill>(ContentType)
+            .Produces<IEnumerable<Models.ProgramParameters.SLHMill>>(200)
             .WithTags(Tag);
     }
-    internal static async Task<Models.CuttingParameters.SLHMill> GetCuttingParameters(
-    Services.CuttingParameters.ISLHMill SLHMillService)
+    internal static async Task<IResult> GetDocumentation(
+        Models.ApplicationParameters.SLHMill appParam,
+        Services.MachiningParameters.SLHMill machParamService,
+        Services.ProgramParameters.SLHMill progParamService,
+        Services.Documentation.SLHMill docService)
     {
-        if (Services.CuttingParameters.ISLHMill.Wor is not null && !string.IsNullOrWhiteSpace(searchTerm))
-        {
-            var matchedBooks = await bookService.SearchByTitleAsync(searchTerm);
-            return Results.Ok(matchedBooks);
-        }
-
-        var books = await bookService.GetAllAsync();
-        return Results.Ok(books);
+        var machParam = await machParamService.GetMachiningParameters(appParam);
+        var progParam = progParamService.GetProgramParameters(appParam, machParam);
+        var docMemStream = docService.GetDocumentation(progParam);
+        return Results.Ok(docMemStream);
     }
 }
