@@ -1,7 +1,7 @@
 ﻿using Dapper;
 
 namespace MachinistSAssistant.Services.MachiningParameters;
-public class SLHMill
+public class SLHMill: ISLHMill
 {
     private readonly Data.IDbConnectionFactory _connectionFactory;
 

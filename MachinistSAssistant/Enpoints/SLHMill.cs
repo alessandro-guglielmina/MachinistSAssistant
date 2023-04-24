@@ -1,4 +1,7 @@
-﻿using Org.BouncyCastle.Crypto.IO;
+﻿using MachinistSAssistant.Data;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.DependencyInjection;
+using Org.BouncyCastle.Crypto.IO;
 
 namespace MachinistSAssistant.Enpoints;
 public class SLHMill : Internal.IEndpoints
@@ -8,21 +11,23 @@ public class SLHMill : Internal.IEndpoints
     private const string BaseRoute = "slhmill";
     public static void AddServices(IServiceCollection services, IConfiguration configuration)
     {
-        throw new NotImplementedException();
+        services.AddSingleton<Services.Documentation.ISLHMill, Services.Documentation.SLHMill>();
+        services.AddSingleton<Services.MachiningParameters.ISLHMill, Services.MachiningParameters.SLHMill>();
+        services.AddSingleton<Services.ProgramParameters.ISLHMill, Services.ProgramParameters.SLHMill>();
     }
     public static void DefineEndpoints(IEndpointRouteBuilder app)
     {
-        app.MapGet(BaseRoute, GetDocumentation)
+        app.MapPost(BaseRoute, GetDocumentation)
             .WithName("GetDocumentation")
             .Accepts<Models.ApplicationParameters.SLHMill>(ContentType)
-            .Produces<IEnumerable<Models.ProgramParameters.SLHMill>>(200)
+            .Produces<MemoryStream>(200)
             .WithTags(Tag);
     }
     internal static async Task<IResult> GetDocumentation(
-        Models.ApplicationParameters.SLHMill appParam,
-        Services.MachiningParameters.SLHMill machParamService,
-        Services.ProgramParameters.SLHMill progParamService,
-        Services.Documentation.SLHMill docService)
+        [FromBody] Models.ApplicationParameters.SLHMill appParam,
+        Services.MachiningParameters.ISLHMill machParamService,
+        Services.ProgramParameters.ISLHMill progParamService,
+        Services.Documentation.ISLHMill docService)
     {
         var machParam = await machParamService.GetMachiningParameters(appParam);
         var progParam = progParamService.GetProgramParameters(appParam, machParam);

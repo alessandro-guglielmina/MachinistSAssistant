@@ -1,6 +1,6 @@
 ﻿namespace MachinistSAssistant.Services.ProgramParameters
 {
-    public class SLHMill
+    public class SLHMill: ISLHMill
     {
         public Models.ProgramParameters.SLHMill GetProgramParameters(Models.ApplicationParameters.SLHMill appParam, Models.MachiningParameters.SLHMill machParam)
         {

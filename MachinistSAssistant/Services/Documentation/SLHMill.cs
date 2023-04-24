@@ -3,12 +3,12 @@ using iText.Forms;
 using iText.Forms.Fields;
 
 namespace MachinistSAssistant.Services.Documentation;
-public class SLHMill
+public class SLHMill: ISLHMill
 {
     private readonly string _templateFilePath;
-    public SLHMill(string templateFilePath, Models.ProgramParameters.SLHMill progParam)
+    public SLHMill(IConfiguration configuration)
     {
-        _templateFilePath = templateFilePath;
+        _templateFilePath = configuration.GetValue<string>("Template:SLHMillFilePath");
     }
 
     public MemoryStream GetDocumentation(Models.ProgramParameters.SLHMill progParam)
