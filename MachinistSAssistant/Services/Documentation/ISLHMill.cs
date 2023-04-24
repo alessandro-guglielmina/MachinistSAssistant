@@ -1,7 +1,9 @@
-﻿namespace MachinistSAssistant.Services.Documentation
+﻿using Microsoft.AspNetCore.Mvc;
+
+namespace MachinistSAssistant.Services.Documentation
 {
     public interface ISLHMill
     {
-        public MemoryStream GetDocumentation(Models.ProgramParameters.SLHMill progParam);
+        public IResult GetDocumentation(Models.ProgramParameters.SLHMill progParam);
     }
 }

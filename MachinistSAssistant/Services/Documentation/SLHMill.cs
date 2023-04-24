@@ -1,6 +1,14 @@
-﻿using iText.Kernel.Pdf;
+﻿using System;
+using System.IO;
+using iText.Kernel.Pdf;
 using iText.Forms;
 using iText.Forms.Fields;
+using Microsoft.AspNetCore.Mvc;
+using iText.Layout;
+using System.Net;
+using System.Net.Http.Headers;
+using System.Web.Http.Results;
+using Microsoft.AspNetCore.Http;
 
 namespace MachinistSAssistant.Services.Documentation;
 public class SLHMill: ISLHMill
@@ -11,14 +19,23 @@ public class SLHMill: ISLHMill
         _templateFilePath = configuration.GetValue<string>("Template:SLHMillFilePath");
     }
 
-    public MemoryStream GetDocumentation(Models.ProgramParameters.SLHMill progParam)
+    public IResult GetDocumentation(Models.ProgramParameters.SLHMill progParam)
     {
-        MemoryStream memStream = new MemoryStream();
-        PdfDocument pdfDoc = new PdfDocument(new PdfReader(_templateFilePath), new PdfWriter(memStream));
-        PdfAcroForm form = PdfAcroForm.GetAcroForm(pdfDoc, true);
-        PdfFormField field = form.GetField("CircularRampMachinedDiameter");
-        field.SetValue(progParam.CircularRampMachinedDiameter.ToString());
-        pdfDoc.Close();
-        return memStream;
+        byte[] pdfBytes;
+        var stream = new MemoryStream();
+
+        using (var reader = new PdfReader(_templateFilePath))
+        using (var writer = new PdfWriter(stream))
+        using (var pdfDocument = new PdfDocument(reader, writer))
+        using (var document = new Document(pdfDocument))
+        {
+            writer.SetCloseStream(false);
+            PdfAcroForm form = PdfAcroForm.GetAcroForm(pdfDocument, true);
+            PdfFormField field = form.GetField("CircularRampMachinedDiameter");
+            field.SetValue(progParam.CircularRampMachinedDiameter.ToString());
+            document.Close();
+            pdfBytes = stream.ToArray();
+        }
+        return Results.File(pdfBytes, "application/pdf", "test.pdf");
     }
 }

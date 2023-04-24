@@ -1,4 +1,5 @@
-﻿using MachinistSAssistant.Data;
+﻿using iText.Kernel.Pdf.Annot;
+using MachinistSAssistant.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
 using Org.BouncyCastle.Crypto.IO;
@@ -20,7 +21,7 @@ public class SLHMill : Internal.IEndpoints
         app.MapPost(BaseRoute, GetDocumentation)
             .WithName("GetDocumentation")
             .Accepts<Models.ApplicationParameters.SLHMill>(ContentType)
-            .Produces<MemoryStream>(200)
+            .Produces<IResult>(200)
             .WithTags(Tag);
     }
     internal static async Task<IResult> GetDocumentation(
@@ -31,7 +32,7 @@ public class SLHMill : Internal.IEndpoints
     {
         var machParam = await machParamService.GetMachiningParameters(appParam);
         var progParam = progParamService.GetProgramParameters(appParam, machParam);
-        var docMemStream = docService.GetDocumentation(progParam);
-        return Results.Ok(docMemStream);
+        var doc = docService.GetDocumentation(progParam);
+        return doc;
     }
 }

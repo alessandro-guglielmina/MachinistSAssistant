@@ -13,6 +13,6 @@ public class SLHMill: ISLHMill
     {
         using var connection = await _connectionFactory.CreateConnectionAsync();
         return connection.QuerySingleOrDefault<Models.MachiningParameters.SLHMill>(
-            "SELECT (CircularRampLead, CircularRampChipThickness, CircularRampCuttingSpeed, RadialStockRemoval) FROM @ToolType WHERE SLHType = @SLHType, ToolReferenceDiameter = @ToolReferenceDiameter, LIMIT 1", appParam);
+            @"SELECT CircularRampLead, CircularRampChipThickness, CircularRampCuttingSpeed, RadialStockRemoval FROM SLHMill WHERE SLHType = @SLHType AND ToolReferenceDiameter = @ToolReferenceDiameter LIMIT 1", appParam);
     }
 }
