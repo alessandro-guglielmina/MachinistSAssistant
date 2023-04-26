@@ -31,8 +31,17 @@ public class SLHMill: ISLHMill
         {
             writer.SetCloseStream(false);
             PdfAcroForm form = PdfAcroForm.GetAcroForm(pdfDocument, true);
-            PdfFormField field = form.GetField("CircularRampMachinedDiameter");
+            PdfFormField field;
+            field = form.GetField("CircularRampMachinedDiameter");
             field.SetValue(progParam.CircularRampMachinedDiameter.ToString());
+            field = form.GetField("CircularRampToolCentrePathDiameter");
+            field.SetValue(progParam.CircularRampToolCentrePathDiameter.ToString());
+            field = form.GetField("CircularRampHelixAngle");
+            field.SetValue(progParam.CircularRampHelixAngle.ToString());
+            field = form.GetField("CircularRampSpindleSpeed");
+            field.SetValue(progParam.CircularRampSpindleSpeed.ToString());
+            field = form.GetField("CircularRampToolCentreFeedrate");
+            field.SetValue(progParam.CircularRampToolCentreFeedrate.ToString());
             document.Close();
             pdfBytes = stream.ToArray();
         }
